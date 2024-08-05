@@ -3,8 +3,7 @@
     "module": "src/index.ts",
     "type": "module",
     "dependencies": {
-        "@repo/config": "*",
-        "sprigkit": "*"
+        "@repo/config": "*"
     },
     "scripts": {
         "build": "bun build ./src/index.ts --outfile=./dist/sprig.js",

@@ -1,26 +1,18 @@
 {
   "name": "create-sprig",
-  "description": "Create Sprig apps with ease!",
-  "version": "0.0.0",
-  "author": "Sigfredo <hello@sigfredo.fun>",
-  "scripts": {
-    "build": "tsup src/cli.ts --minify",
-    "clean": "shx rm -rf lib",
-    "dev": "tsup src/cli.ts --watch",
-    "prepublishOnly": "npm run clean && npm run build"
-  },
-  "bin": "dist/cli.js",
-  "files": [
-    "dist",
-    "templates"
-  ],
+  "version": "1.0.0",
+  "module": "dist/cli.js",
+  "type": "module",
   "devDependencies": {
-    "@types/node": "^17.0.29",
-    "tsup": "^5.12.1",
-    "typescript": "^4.6.3"
+    "@types/bun": "latest"
   },
-  "license": "MIT",
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
   "dependencies": {
-    "create-create-app": "^7.3.0"
+    "commander": "^12.1.0",
+    "inquirer": "^10.1.8",
+    "picocolors": "^1.0.1",
+    "update-check": "^1.5.4"
   }
 }

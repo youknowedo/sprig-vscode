@@ -1,0 +1,13 @@
+{
+    "name": "@repo/config",
+    "version": "0.0.0",
+    "private": true,
+    "files": [
+        "eslintrc.json",
+        "tsconfig.json"
+    ],
+    "license": "MIT",
+    "publishConfig": {
+        "access": "public"
+    }
+}

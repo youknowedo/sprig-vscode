@@ -22,11 +22,16 @@ createSprigCli
         "Do not run a package manager install after creating the project",
         false
     )
+    .option(
+        "--skip-transforms",
+        "Do not run any transforms on the project",
+        false
+    )
     .addOption(
         new Option(
             "-t, --template <template>",
             "Specify a template to use for creating the project"
-        ).choices(["vanilla"])
+        ).choices(["default", "vanilla"])
     )
     .version(cliPkg.version, "-v, --version", "Output the current version")
     .helpOption("-h, --help", "Display help for command")

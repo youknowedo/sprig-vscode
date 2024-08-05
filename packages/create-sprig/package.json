@@ -10,8 +10,10 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@inquirer/prompts": "^5.3.8",
+    "@types/fs-extra": "^11.0.4",
     "commander": "^12.1.0",
-    "inquirer": "^10.1.8",
+    "fs-extra": "^11.2.0",
     "picocolors": "^1.0.1",
     "update-check": "^1.5.4"
   }

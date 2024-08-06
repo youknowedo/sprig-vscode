@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { promises, Readable, Stream } from "node:stream";
 import { promisify } from "node:util";
-import { bold, dim, yellow } from "picocolors";
+import pico from "picocolors";
 import { x as extract } from "tar";
 import checkForUpdate from "update-check";
 import cliPkg from "../package.json";
@@ -19,7 +19,9 @@ export async function notifyUpdate(): Promise<void> {
         if (res?.latest) {
             console.log();
             console.log(
-                yellow(bold("A new version of `create-sprig` is available!"))
+                pico.yellow(
+                    pico.bold("A new version of `create-sprig` is available!")
+                )
             );
             console.log();
         }
@@ -48,11 +50,9 @@ export const checkFolder = (
 };
 
 async function downloadTar(url: string, name: string) {
-    const tempFilePath = join(tmpdir(), `${name}.temp-${Date.now()}.tar.gz`);
-    const tempFile = Bun.file(tempFilePath);
-    await Bun.write(tempFile, await fetch(url));
-
-    return tempFilePath;
+    const tempFile = join(tmpdir(), `${name}.temp-${Date.now()}`);
+    await pipeline(got.stream(url), createWriteStream(tempFile));
+    return tempFile;
 }
 
 export async function downloadAndExtractRepo(

@@ -2,7 +2,7 @@ import { confirm } from "@inquirer/prompts";
 import retry from "async-retry";
 import { createWriteStream, mkdirSync, readdirSync } from "node:fs";
 import path from "node:path";
-import { bold, gray, green } from "picocolors";
+import pico from "picocolors";
 import cliPkg from "../../../package.json";
 import { checkFolder, downloadAndExtractRepo } from "../../utils";
 import prompts from "./prompts";
@@ -13,8 +13,8 @@ export const create = async (
 ) => {
     console.log(
         "\n",
-        bold(green("create-sprig")),
-        gray("v" + cliPkg.version),
+        pico.bold(pico.green("create-sprig")),
+        pico.gray("v" + cliPkg.version),
         "\n"
     );
 

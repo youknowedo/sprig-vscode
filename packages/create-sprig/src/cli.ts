@@ -1,5 +1,5 @@
 import { Command, Option } from "commander";
-import { bold, green } from "picocolors";
+import pico from "picocolors";
 import cliPkg from "../package.json";
 import { create } from "./commands";
 import { notifyUpdate } from "./utils";
@@ -7,9 +7,9 @@ import { notifyUpdate } from "./utils";
 const createSprigCli = new Command();
 
 createSprigCli
-    .name(bold(green("create-sprig")))
+    .name(pico.bold(pico.green("create-sprig")))
     .description("Create a new Sprig project")
-    .usage(`${bold("[project-directory]")} [options]`)
+    .usage(`${pico.bold("[project-directory]")} [options]`)
     .arguments("[project-directory]")
     .addOption(
         new Option(

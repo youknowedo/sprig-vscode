@@ -2,7 +2,12 @@
 
 "use strict";
 
-const path = require("path");
+import path from "path";
+import { fileURLToPath } from "url";
+import WatchExternalFilesPlugin from "webpack-watch-external-files-plugin";
+
+const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
+const __dirname = path.dirname(__filename); // get the name of the directory
 
 //@ts-check
 /** @typedef {import('webpack').Configuration} WebpackConfig **/
@@ -27,6 +32,11 @@ const extensionConfig = {
         // support reading TypeScript and JavaScript files, 📖 -> https://github.com/TypeStrong/ts-loader
         extensions: [".ts", ".js"],
     },
+    plugins: [
+        new WatchExternalFilesPlugin({
+            files: ["../vscode-webview/build/*"],
+        }),
+    ],
     module: {
         rules: [
             {
@@ -49,4 +59,5 @@ const extensionConfig = {
         level: "log", // enables logging required for problem matchers
     },
 };
-module.exports = [extensionConfig];
+
+export default extensionConfig;

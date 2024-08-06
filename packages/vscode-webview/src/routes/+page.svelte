@@ -1,2 +1,4 @@
 <h1>Welcome to SprigKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<p>
+	Visit <a href="https://sprigkit.sigfredo.dev">sprigkit.sigfredo.dev</a> to read the documentation
+</p>

@@ -1,11 +1,12 @@
 {
     "name": "create-sprig",
     "version": "1.0.0",
-    "module": "dist/cli.js",
-    "type": "module",
+    "main": "dist/cli.js",
+    "module": "dist/cli.mjs",
+    "types": "dist/cli.d.ts",
     "scripts": {
         "dev": "bun run build && bun run start",
-        "build": "bun build ./src/cli.ts --outfile=./dist/cli.js --target=node",
+        "build": "tsup src/cli.ts --format cjs,esm --dts",
         "start": "node dist/cli.js"
     },
     "peerDependencies": {
@@ -16,6 +17,7 @@
         "commander": "^12.1.0",
         "picocolors": "^1.0.1",
         "tar": "^7.4.3",
+        "tsup": "^8.2.4",
         "update-check": "^1.5.4"
     }
 }

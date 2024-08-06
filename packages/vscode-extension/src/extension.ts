@@ -10,6 +10,9 @@ export function activate(context: vscode.ExtensionContext) {
             vscode.ViewColumn.One, // Editor column to show the new webview panel in.
             {} // Webview options. More on these later.
         );
+        panel.webview.options = {
+            enableScripts: true,
+        };
 
         panel.webview.html = html;
     });

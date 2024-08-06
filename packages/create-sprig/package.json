@@ -4,8 +4,9 @@
     "main": "dist/cli.js",
     "module": "dist/cli.mjs",
     "types": "dist/cli.d.ts",
+    "type": "module",
     "scripts": {
-        "dev": "bun run build && bun run start",
+        "dev": "bun build ./src/cli.ts --outfile=./dist/cli.js --target=node && bun run start",
         "build": "tsup src/cli.ts --format cjs,esm --dts",
         "start": "node dist/cli.js"
     },

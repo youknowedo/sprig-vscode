@@ -2,15 +2,19 @@
     "name": "sprigkit",
     "version": "0.0.0",
     "type": "module",
+    "exports": {
+        ".": "./src/index.ts"
+    },
     "scripts": {
-        "build": "tsc -p ./",
-        "watch": "tsc -watch -p ./",
+        "build": "tsup  ./src --format esm",
+        "dev": "tsup ./src --watch --format esm",
         "pretest": "npm run compile && npm run lint",
         "lint": "eslint src --ext ts",
         "format": "prettier --write src/**/*.ts"
     },
     "devDependencies": {
-        "@types/bun": "latest"
+        "@types/bun": "latest",
+        "tsup": "^8.2.4"
     },
     "peerDependencies": {
         "typescript": "^5.0.0"

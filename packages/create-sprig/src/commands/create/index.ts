@@ -1,9 +1,10 @@
 import { confirm } from "@inquirer/prompts";
 import retry from "async-retry";
+import { createWriteStream, mkdirSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { bold, gray, green } from "picocolors";
 import cliPkg from "../../../package.json";
-import { downloadAndExtractRepo, isFolderEmpty } from "../../utils";
+import { checkFolder, downloadAndExtractRepo } from "../../utils";
 import prompts from "./prompts";
 
 export const create = async (
@@ -20,9 +21,11 @@ export const create = async (
     const { root, projectName } = await prompts.directory(directory);
     const relativeProjectDir = path.relative(process.cwd(), root);
     const projectDirIsCurrentDir = relativeProjectDir === "";
-    const isEmpty = isFolderEmpty(root);
+    const { empty, exists } = checkFolder(root);
 
-    if (!isEmpty) {
+    if (!exists) mkdirSync(root, { recursive: true });
+
+    if (!empty) {
         const continueAnyway = await confirm({
             message: `Directory not empty. Continue anyway?`,
         });
@@ -32,20 +35,14 @@ export const create = async (
 
     const selectedTemplate = await prompts.template(template);
 
-    await retry(
-        () =>
-            downloadAndExtractRepo(
-                root,
-                "youknowedo",
-                "sprigkit",
-                "main",
-                `templates/${selectedTemplate}`
-            ),
-        {
-            retries: 3,
-        }
-    ).catch((err) => {
-        console.error(err);
+    await downloadAndExtractRepo(
+        root,
+        "youknowedo",
+        "sprigkit",
+        "main",
+        `templates/${selectedTemplate}`
+    ).catch((error) => {
+        console.error(error);
         process.exit(1);
     });
 };

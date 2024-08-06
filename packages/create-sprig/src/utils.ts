@@ -2,7 +2,7 @@ import got from "got";
 import { createWriteStream, readdirSync, unlinkSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { Stream } from "node:stream";
+import { promises, Readable, Stream } from "node:stream";
 import { promisify } from "node:util";
 import { bold, dim, yellow } from "picocolors";
 import { x as extract } from "tar";
@@ -29,21 +29,30 @@ export async function notifyUpdate(): Promise<void> {
     }
 }
 
-export function isFolderEmpty(root: string) {
+export const checkFolder = (
+    root: string
+): { exists: boolean; empty: boolean } => {
     try {
         const conflicts = readdirSync(root);
 
-        return conflicts.length === 0;
-    } catch {}
-
-    // If an error occurs, we assume the folder doesn't exist
-    return true;
-}
+        return {
+            exists: true,
+            empty: conflicts.length === 0,
+        };
+    } catch {
+        return {
+            exists: false,
+            empty: true,
+        };
+    }
+};
 
 async function downloadTar(url: string, name: string) {
-    const tempFile = join(tmpdir(), `${name}.temp-${Date.now()}`);
-    await pipeline(got.stream(url), createWriteStream(tempFile));
-    return tempFile;
+    const tempFilePath = join(tmpdir(), `${name}.temp-${Date.now()}.tar.gz`);
+    const tempFile = Bun.file(tempFilePath);
+    await Bun.write(tempFile, await fetch(url));
+
+    return tempFilePath;
 }
 
 export async function downloadAndExtractRepo(

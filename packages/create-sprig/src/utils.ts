@@ -79,3 +79,14 @@ export async function downloadAndExtractRepo(
 
     unlinkSync(tempFile);
 }
+
+export function getPackageManager() {
+    if (!process.env.npm_config_user_agent) {
+        return undefined;
+    }
+    const user_agent = process.env.npm_config_user_agent;
+    const pm_spec = user_agent.split(" ")[0];
+    const separator_pos = pm_spec.lastIndexOf("/");
+    const name = pm_spec.substring(0, separator_pos);
+    return name === "npminstall" ? "cnpm" : name;
+}

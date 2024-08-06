@@ -6,7 +6,7 @@
     "types": "dist/cli.d.ts",
     "type": "module",
     "scripts": {
-        "dev": "bun build ./src/cli.ts --outfile=./dist/cli.js --target=node && bun run start",
+        "preview": "bun build ./src/cli.ts --outfile=./dist/cli.js --target=node && bun run start",
         "build": "tsup src/cli.ts --format cjs,esm --dts",
         "start": "node dist/cli.js"
     },
@@ -16,6 +16,7 @@
     "dependencies": {
         "@inquirer/prompts": "^5.3.8",
         "commander": "^12.1.0",
+        "got": "^14.4.2",
         "picocolors": "^1.0.1",
         "tar": "^7.4.3",
         "tsup": "^8.2.4",

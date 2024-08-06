@@ -23,7 +23,7 @@ const directory = async (dir: string | undefined) => {
     return { root, projectName };
 };
 
-export const templates = ["vanilla"] as const;
+export const templates = ["vanilla", "sprout"] as const;
 export type Template = (typeof templates)[number];
 
 const template = async (givenTemplate?: string) => {

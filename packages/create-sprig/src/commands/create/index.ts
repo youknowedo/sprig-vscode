@@ -1,6 +1,5 @@
 import { confirm } from "@inquirer/prompts";
-import retry from "async-retry";
-import { createWriteStream, mkdirSync, readdirSync } from "node:fs";
+import { mkdirSync, readdirSync, rmSync } from "node:fs";
 import path from "node:path";
 import pico from "picocolors";
 import cliPkg from "../../../package.json";
@@ -27,8 +26,6 @@ export const create = async (
     const projectDirIsCurrentDir = relativeProjectDir === "";
     const { empty, exists } = checkFolder(root);
 
-    if (!exists) mkdirSync(root, { recursive: true });
-
     if (!empty) {
         const continueAnyway = await confirm({
             message: `Directory not empty. Continue anyway?`,
@@ -38,6 +35,22 @@ export const create = async (
     }
 
     const selectedTemplate = await prompts.template(template);
+
+    if (!exists) mkdirSync(root, { recursive: true });
+
+    if (!empty) {
+        try {
+            for (const file of readdirSync(root)) {
+                rmSync(path.join(root, file), {
+                    recursive: true,
+                    force: true,
+                });
+            }
+        } catch (error) {
+            console.error(error);
+            process.exit(1);
+        }
+    }
 
     await downloadAndExtractRepo(
         root,

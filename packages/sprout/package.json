@@ -1,19 +1,27 @@
 {
-    "name": "sprigkit",
-    "version": "0.0.0",
+    "name": "@repo/sprout",
+    "version": "1.0.0",
     "type": "module",
+    "files": [
+        "./dist/index.js",
+        "./dist/types.d.js"
+    ],
     "exports": {
-        ".": "./src/index.ts"
+        ".": {
+            "default": "./dist/index.js",
+            "types": "./dist/index.d.js"
+        }
     },
     "scripts": {
-        "build": "tsup  ./src --format esm",
-        "dev": "tsup ./src --watch --format esm",
+        "preview": "tsup src/index.ts --format esm --dts --watch",
+        "build": "tsup src/index.ts --format esm --dts",
         "pretest": "npm run compile && npm run lint",
         "lint": "eslint src --ext ts",
         "format": "prettier --write src/**/*.ts"
     },
     "devDependencies": {
         "@types/bun": "latest",
+        "sprig": "^1.1.3",
         "tsup": "^8.2.4"
     },
     "peerDependencies": {

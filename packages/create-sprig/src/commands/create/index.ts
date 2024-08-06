@@ -1,5 +1,11 @@
 import { confirm } from "@inquirer/prompts";
-import { mkdirSync, readdirSync, rmSync } from "node:fs";
+import {
+    mkdirSync,
+    readdirSync,
+    readFileSync,
+    rmSync,
+    writeFileSync,
+} from "node:fs";
 import path from "node:path";
 import pico from "picocolors";
 import cliPkg from "../../../package.json";
@@ -72,4 +78,12 @@ Next steps:
   3. ${pico.bold(pico.dim('git init && git add -A && git commit -m "Initial commit" (optional)'))}
 
 ${pico.bold(pico.red("Hack Club"))}. By high schoolers, for high schoolers.`);
+
+    const packageJson = JSON.parse(
+        readFileSync(root + "/package.json", "utf-8")
+    );
+
+    packageJson.name = projectName;
+
+    writeFileSync(root + "/package.json", JSON.stringify(packageJson, null, 2));
 };

@@ -1,36 +1,22 @@
+import { confirm } from "@inquirer/prompts";
 import path from "node:path";
-import { getAvailablePackageManagers, type PackageManager } from "../../utils";
+import { isFolderEmpty } from "../../utils";
 import prompts from "./prompts";
 
 export const create = async (
     directory: string | undefined,
-    options: {
-        packageManager?: PackageManager;
-        skipInstall?: boolean;
-        skipTransforms?: boolean;
-        template?: "default" | "vanilla" | undefined;
-    }
+    template?: "default" | "vanilla" | undefined
 ) => {
-    const { packageManager, skipInstall, skipTransforms, template } = options;
-
-    const availablePackageManagers = getAvailablePackageManagers();
-
     const { root, projectName } = await prompts.directory(directory);
     const relativeProjectDir = path.relative(process.cwd(), root);
     const projectDirIsCurrentDir = relativeProjectDir === "";
+    const isEmpty = isFolderEmpty(root);
 
-    // selected package manager can be undefined if the user chooses to skip transforms
-    const selectedPackageManagerDetails = await prompts.packageManager(
-        packageManager,
-        skipTransforms
-    );
+    if (!isEmpty) {
+        const continueAnyway = await confirm({
+            message: `The directory '${directory}' is not empty. Do you want to continue anyway?`,
+        });
 
-    if (packageManager && skipTransforms) {
-        console.warn(
-            "--skip-transforms conflicts with <package-manager>. The package manager argument will be ignored."
-        );
+        if (!continueAnyway) process.exit(0);
     }
-
-    const templateName =
-        template && template !== "default" ? template : "vanilla";
 };

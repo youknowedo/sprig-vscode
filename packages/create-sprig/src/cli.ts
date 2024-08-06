@@ -13,22 +13,6 @@ createSprigCli
     .arguments("project-directory")
     .addOption(
         new Option(
-            "-m, --package-manager <package-manager>",
-            "Specify the package manager to use"
-        ).choices(["npm", "yarn", "pnpm", "bun"])
-    )
-    .option(
-        "--skip-install",
-        "Do not run a package manager install after creating the project",
-        false
-    )
-    .option(
-        "--skip-transforms",
-        "Do not run any transforms on the project",
-        false
-    )
-    .addOption(
-        new Option(
             "-t, --template <template>",
             "Specify a template to use for creating the project"
         ).choices(["default", "vanilla"])

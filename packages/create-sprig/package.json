@@ -3,8 +3,10 @@
     "version": "1.0.0",
     "module": "dist/cli.js",
     "type": "module",
-    "devDependencies": {
-        "@types/bun": "latest"
+    "scripts": {
+        "dev": "bun run build && bun run start",
+        "build": "bun build ./src/cli.ts --outfile=./dist/cli.js --target=node",
+        "start": "node dist/cli.js"
     },
     "peerDependencies": {
         "typescript": "^5.0.0"

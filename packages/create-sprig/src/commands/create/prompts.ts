@@ -22,15 +22,15 @@ const directory = async (dir: string | undefined) => {
     return { root, projectName };
 };
 
-export const templates = ["default", "vanilla"] as const;
+export const templates = ["vanilla"] as const;
 export type Template = (typeof templates)[number];
 
 const template = async (givenTemplate?: string) => {
     const selectedTemplate: Template =
-        (templates.includes(givenTemplate as Template) &&
-            (givenTemplate != "default"
-                ? (givenTemplate as Template)
-                : "vanilla")) ||
+        (givenTemplate != "default"
+            ? templates.includes(givenTemplate as Template) &&
+              (givenTemplate as Template)
+            : "vanilla") ||
         (await select({
             message: "Which template would you like to use?",
             choices: templates.map((value) => {

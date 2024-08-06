@@ -1,7 +1,16 @@
 import fs from "fs-extra";
+import got from "got";
+import { createWriteStream } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { Stream } from "node:stream";
+import { promisify } from "node:util";
 import { bold, dim, yellow } from "picocolors";
+import { x as extract } from "tar";
 import checkForUpdate from "update-check";
 import cliPkg from "../package.json";
+
+const pipeline = promisify(Stream.pipeline);
 
 const update = checkForUpdate(cliPkg).catch(() => null);
 
@@ -25,4 +34,35 @@ export function isFolderEmpty(root: string) {
     const conflicts = fs.readdirSync(root);
 
     return conflicts.length === 0;
+}
+
+async function downloadTar(url: string, name: string) {
+    const tempFile = join(tmpdir(), `${name}.temp-${Date.now()}`);
+    await pipeline(got.stream(url), createWriteStream(tempFile));
+    return tempFile;
+}
+
+export async function downloadAndExtractRepo(
+    root: string,
+    username: string,
+    name: string,
+    branch: string,
+    filePath: string
+) {
+    const tempFile = await downloadTar(
+        `https://codeload.github.com/${username}/${name}/tar.gz/${branch}`,
+        `turbo-ct-example`
+    );
+
+    await extract({
+        file: tempFile,
+        cwd: root,
+        strip: filePath.split("/").length + 1,
+        filter: (p: string) =>
+            p.startsWith(
+                `${name}-${branch.replace(/\//g, "-")}${`/${filePath}/`}`
+            ),
+    });
+
+    await fs.unlink(tempFile);
 }

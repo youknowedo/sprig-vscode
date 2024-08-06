@@ -9,7 +9,7 @@ const createSprigCli = new Command();
 createSprigCli
     .name(bold(green("create-sprig")))
     .description("Create a new Sprig project")
-    .usage(`${bold("<project-directory>")} [options]`)
+    .usage(`${bold("[project-directory]")} [options]`)
     .arguments("project-directory")
     .addOption(
         new Option(

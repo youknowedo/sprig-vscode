@@ -1,6 +1,7 @@
 import { confirm } from "@inquirer/prompts";
+import retry from "async-retry";
 import path from "node:path";
-import { isFolderEmpty } from "../../utils";
+import { downloadAndExtractRepo, isFolderEmpty } from "../../utils";
 import prompts from "./prompts";
 
 export const create = async (
@@ -21,4 +22,25 @@ export const create = async (
     }
 
     const selectedTemplate = await prompts.template(template);
+
+    console.log(`Creating a new Sprig project in ${projectName}...`);
+
+    await retry(
+        () =>
+            downloadAndExtractRepo(
+                root,
+                "youknowedo",
+                "sprigkit",
+                "main",
+                `templates/${selectedTemplate}`
+            ),
+        {
+            retries: 3,
+        }
+    ).catch((err) => {
+        console.error(err);
+        process.exit(1);
+    });
+
+    console.log("Done!");
 };

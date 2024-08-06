@@ -26,6 +26,7 @@ export const templates = ["vanilla"] as const;
 export type Template = (typeof templates)[number];
 
 const template = async (givenTemplate?: string) => {
+    console.log("Available templates:", templates.join(", "));
     const selectedTemplate: Template =
         (givenTemplate != "default"
             ? templates.includes(givenTemplate as Template) &&

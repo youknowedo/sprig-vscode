@@ -21,9 +21,9 @@ export const create = async (
         if (!continueAnyway) process.exit(0);
     }
 
-    const selectedTemplate = await prompts.template(template);
-
     console.log(`Creating a new Sprig project in ${projectName}...`);
+
+    const selectedTemplate = await prompts.template(template);
 
     await retry(
         () =>

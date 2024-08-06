@@ -1,6 +1,5 @@
-import fs from "fs-extra";
 import got from "got";
-import { createWriteStream } from "node:fs";
+import { createWriteStream, readdirSync, unlinkSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { Stream } from "node:stream";
@@ -31,9 +30,14 @@ export async function notifyUpdate(): Promise<void> {
 }
 
 export function isFolderEmpty(root: string) {
-    const conflicts = fs.readdirSync(root);
+    try {
+        const conflicts = readdirSync(root);
 
-    return conflicts.length === 0;
+        return conflicts.length === 0;
+    } catch {}
+
+    // If an error occurs, we assume the folder doesn't exist
+    return true;
 }
 
 async function downloadTar(url: string, name: string) {
@@ -64,5 +68,5 @@ export async function downloadAndExtractRepo(
             ),
     });
 
-    await fs.unlink(tempFile);
+    unlinkSync(tempFile);
 }

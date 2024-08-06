@@ -10,7 +10,7 @@ createSprigCli
     .name(bold(green("create-sprig")))
     .description("Create a new Sprig project")
     .usage(`${bold("[project-directory]")} [options]`)
-    .arguments("project-directory")
+    .arguments("[project-directory]")
     .addOption(
         new Option(
             "-t, --template <template>",

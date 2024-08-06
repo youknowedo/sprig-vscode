@@ -3,18 +3,19 @@ import path from "node:path";
 
 const directory = async (dir: string | undefined) => {
     const projectDir =
-        dir ??
-        (await input({
-            message: "Where would you like to create your Turborepo?",
-            default: "./my-turborepo",
+        dir && dir != "."
+            ? dir
+            : await input({
+                  message: "Where would you like to create your Sprig project?",
+                  default: dir ?? "./sprig-project",
 
-            transformer: (value, { isFinal }) => {
-                if (isFinal) {
-                    return value.trim();
-                }
-                return value;
-            },
-        }));
+                  transformer: (value, { isFinal }) => {
+                      if (isFinal) {
+                          return value.trim();
+                      }
+                      return value;
+                  },
+              });
 
     const root = path.resolve(projectDir);
     const projectName = path.basename(root);
@@ -26,7 +27,6 @@ export const templates = ["vanilla"] as const;
 export type Template = (typeof templates)[number];
 
 const template = async (givenTemplate?: string) => {
-    console.log("Available templates:", templates.join(", "));
     const selectedTemplate: Template =
         (givenTemplate != "default"
             ? templates.includes(givenTemplate as Template) &&

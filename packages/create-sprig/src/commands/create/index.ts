@@ -5,7 +5,7 @@ import prompts from "./prompts";
 
 export const create = async (
     directory: string | undefined,
-    template?: "default" | "vanilla" | undefined
+    template?: string | undefined
 ) => {
     const { root, projectName } = await prompts.directory(directory);
     const relativeProjectDir = path.relative(process.cwd(), root);
@@ -19,4 +19,6 @@ export const create = async (
 
         if (!continueAnyway) process.exit(0);
     }
+
+    const selectedTemplate = await prompts.template(template);
 };

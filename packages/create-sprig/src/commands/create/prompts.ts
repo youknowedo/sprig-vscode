@@ -1,7 +1,7 @@
 import { input, select } from "@inquirer/prompts";
 import path from "node:path";
 
-async function directory(dir: string | undefined) {
+const directory = async (dir: string | undefined) => {
     const projectDir =
         dir ??
         (await input({
@@ -20,8 +20,36 @@ async function directory(dir: string | undefined) {
     const projectName = path.basename(root);
 
     return { root, projectName };
-}
+};
+
+export const templates = ["default", "vanilla"] as const;
+export type Template = (typeof templates)[number];
+
+const template = async (givenTemplate?: string) => {
+    const selectedTemplate: Template =
+        (templates.includes(givenTemplate as Template) &&
+            (givenTemplate != "default"
+                ? (givenTemplate as Template)
+                : "vanilla")) ||
+        (await select({
+            message: "Which template would you like to use?",
+            choices: templates.map((value) => {
+                const name = value
+                    .split("-")
+                    .map((s) => s[0].toUpperCase() + s.substring(1))
+                    .join(" ");
+
+                return {
+                    name,
+                    value,
+                };
+            }),
+        }));
+
+    return selectedTemplate;
+};
 
 export default {
     directory,
+    template,
 };

@@ -1,3 +1,5 @@
+import fs from "fs";
+import path from "path";
 import * as vscode from "vscode";
 import html from "vscode-webview/webview.html";
 
@@ -14,7 +16,15 @@ export function activate(context: vscode.ExtensionContext) {
             enableScripts: true,
         };
 
-        panel.webview.html = html;
+        const filePath = path.join(
+            vscode.workspace.workspaceFolders?.[0].uri.fsPath || "",
+            "dist/index.js"
+        );
+        const code = fs.readFileSync(filePath, "utf8");
+
+        console.log(code);
+
+        panel.webview.html = (html as string).replace("{{GAME_CODE}}", code);
     });
 
     context.subscriptions.push(disposable);

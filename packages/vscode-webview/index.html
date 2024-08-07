@@ -8,6 +8,62 @@
     </head>
     <body style="padding: 0 0 !important">
         <div id="app"></div>
+        <code>
+          // src/index.ts
+import { Sprout } from "@repo/sprout";
+
+// src/player.ts
+var player = "p";
+var initializePlayer = (api) => {
+  const { onInput, afterInput, getFirst, setLegend, bitmap } = api;
+  setLegend([
+    player,
+    bitmap`
+................
+................
+.......000......
+.......0.0......
+......0..0......
+......0...0.0...
+....0003.30.0...
+....0.0...000...
+....0.05550.....
+......0...0.....
+.....0....0.....
+.....0...0......
+......000.......
+......0.0.......
+.....00.00......
+................`
+  ]);
+  onInput("s", () => {
+    const p = getFirst(player);
+    if (p) p.y += 1;
+  });
+  afterInput(() => {
+  });
+};
+
+// src/index.ts
+var { setStart, setInterval } = new Sprout();
+var levels;
+setStart((api) => {
+  const { setLegend, bitmap, setSolids, setPushables, map } = api;
+  setSolids([]);
+  setPushables({
+    [player]: []
+  });
+  levels = [
+    map`
+p.
+..`
+  ];
+  initializePlayer(api);
+});
+setInterval((api) => {
+}, 1e3);
+
+        </code>
         <script type="module" src="/src/main.ts"></script>
     </body>
 </html>

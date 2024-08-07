@@ -25,6 +25,8 @@ export function activate(context: vscode.ExtensionContext) {
         console.log(code);
 
         panel.webview.html = (html as string).replace("{{GAME_CODE}}", code);
+
+        console.log(panel.webview.html);
     });
 
     context.subscriptions.push(disposable);

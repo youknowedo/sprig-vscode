@@ -11,12 +11,6 @@ createSprigCli
     .description("Create a new Sprig project")
     .usage(`${pico.bold("[project-directory]")} [options]`)
     .arguments("[project-directory]")
-    .addOption(
-        new Option(
-            "-t, --template <template>",
-            "Specify a template to use for creating the project"
-        ).choices(["default", "vanilla"])
-    )
     .version(cliPkg.version, "-v, --version", "Output the current version")
     .helpOption("-h, --help", "Display help for command")
     .action(create);

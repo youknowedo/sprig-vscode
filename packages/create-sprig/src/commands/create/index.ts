@@ -16,10 +16,7 @@ import {
 } from "../../utils";
 import prompts from "./prompts";
 
-export const create = async (
-    directory: string | undefined,
-    template?: string | undefined
-) => {
+export const create = async (directory: string | undefined) => {
     console.log(
         "\n",
         pico.bold(pico.green("create-sprig")),
@@ -39,8 +36,6 @@ export const create = async (
 
         if (!continueAnyway) process.exit(0);
     }
-
-    const selectedTemplate = await prompts.template(template);
 
     if (!exists) mkdirSync(root, { recursive: true });
 
@@ -63,7 +58,7 @@ export const create = async (
         "youknowedo",
         "sprigkit",
         "main",
-        `templates/${selectedTemplate}`
+        "template"
     ).catch((error) => {
         console.error(error);
         process.exit(1);

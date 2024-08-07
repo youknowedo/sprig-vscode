@@ -24,6 +24,6 @@
         "noUnusedParameters": false,
         "noPropertyAccessFromIndexSignature": false
     },
-    "include": ["src"],
+    "include": ["src", ".sprig/*"],
     "exclude": ["node_modules"]
 }

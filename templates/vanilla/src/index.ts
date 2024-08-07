@@ -8,9 +8,9 @@ https://sprig.hackclub.com/gallery/getting_started
 @addedOn: 2024-00-00
 */
 
-import { otherFunc } from "./other.js";
+import { moveDown } from "./inputs.js";
 
-const player = "p";
+export const player = "p";
 
 setLegend([
     player,
@@ -48,14 +48,6 @@ setPushables({
     [player]: [],
 });
 
-onInput("s", () => {
-    const p = getFirst(player);
-
-    if (p) p.y += 1;
-});
+onInput("s", moveDown);
 
 afterInput(() => {});
-
-console.log("Hello from index!");
-
-otherFunc();

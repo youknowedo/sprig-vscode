@@ -1,7 +1,8 @@
 {
-    "name": "sprigkit",
+    "name": "sprigkit-project",
     "private": true,
     "scripts": {
+        "postinstall": "sprigkit postinstall",
         "build": "turbo build",
         "dev": "turbo dev",
         "watch": "turbo run watch",
@@ -19,6 +20,6 @@
     "packageManager": "bun@1.1.12",
     "workspaces": [
         "packages/*",
-        "templates/*"
+        "template"
     ]
 }

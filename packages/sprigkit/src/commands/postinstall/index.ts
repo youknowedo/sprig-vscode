@@ -17,7 +17,8 @@ import {
 
 export const postinstall = async (directory: string | undefined) => {
     console.log("Start");
-    const root = path.resolve("./sprig");
+    const root = path.resolve("./.sprig");
+    console.log(root);
     const { empty, exists } = checkFolder(root);
 
     console.log(empty, exists);
@@ -45,7 +46,7 @@ export const postinstall = async (directory: string | undefined) => {
         "youknowedo",
         "sprigkit",
         "main",
-        "packages/sprigkit/.sprig"
+        "packages/sprigkit/postinstall-files"
     ).catch((error) => {
         console.error(error);
         process.exit(1);

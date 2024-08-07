@@ -1,14 +1,12 @@
 {
     "name": "sprig-project",
     "type": "module",
-    "dependencies": {
-        "@repo/config": "*"
-    },
     "scripts": {
         "build": "tsup src/index.ts --format esm",
-        "dev": "tsup src/index.ts --watch --format esm"
+        "watch": "tsup src/index.ts --watch --format esm"
     },
     "devDependencies": {
+        "@repo/config": "*",
         "sprig": "^1.1.3",
         "tsup": "^8.2.4"
     },

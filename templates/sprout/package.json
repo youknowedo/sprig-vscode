@@ -1,18 +1,16 @@
 {
     "name": "sprout-project",
     "type": "module",
-    "dependencies": {
-        "@repo/config": "*",
-        "@repo/sprout": "1.0.0"
-    },
     "scripts": {
         "build": "tsup src/index.ts --format esm",
-        "dev": "tsup src/index.ts --watch --format esm"
+        "watch": "tsup src/index.ts --watch --format esm"
     },
     "devDependencies": {
         "sprig": "^1.1.3",
         "sprout": "latest",
-        "tsup": "^8.2.4"
+        "tsup": "^8.2.4",
+        "@repo/config": "*",
+        "@repo/sprout": "1.0.0"
     },
     "peerDependencies": {
         "typescript": "^5.0.0"

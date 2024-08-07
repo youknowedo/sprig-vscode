@@ -3,7 +3,6 @@
     "displayName": "sprigkit",
     "description": "",
     "version": "0.0.1",
-    "type": "module",
     "engines": {
         "vscode": "^1.92.0"
     },

@@ -28,9 +28,7 @@
         "tslib": "^2.6.3",
         "typescript": "^5.2.2",
         "vite": "^5.3.4",
-        "vite-plugin-singlefile": "^2.0.2"
-    },
-    "dependencies": {
+        "vite-plugin-singlefile": "^2.0.2",
         "sprig": "^1.1.3"
     }
 }

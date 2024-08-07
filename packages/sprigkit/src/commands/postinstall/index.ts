@@ -16,11 +16,9 @@ import {
 } from "../../utils";
 
 export const postinstall = async (directory: string | undefined) => {
-    console.log("Start");
     const root = path.resolve("./sprig");
     const { empty, exists } = checkFolder(root);
 
-    console.log(empty, exists);
     if (!exists) mkdirSync(root, { recursive: true });
 
     if (!empty) {
@@ -35,10 +33,7 @@ export const postinstall = async (directory: string | undefined) => {
             console.error(error);
             process.exit(1);
         }
-        console.log("Didnt fail");
     }
-
-    console.log("Downloading");
 
     await downloadAndExtractRepo(
         root,
@@ -50,6 +45,4 @@ export const postinstall = async (directory: string | undefined) => {
         console.error(error);
         process.exit(1);
     });
-
-    console.log("Downloaded");
 };

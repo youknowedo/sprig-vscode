@@ -24,15 +24,18 @@ export function activate(context: vscode.ExtensionContext) {
         );
         const code = fs.readFileSync(filePath, "utf8");
 
+        const logoOnDiskPath = vscode.Uri.joinPath(
+            context.extensionUri,
+            "images",
+            "sprigkit.png"
+        );
+        // And get the special URI to use with the webview
+        const logoSrc = panel.webview.asWebviewUri(logoOnDiskPath);
+
         panel.webview.html = (html as string)
             .replace("{{GAME_CODE}}", code)
-            .replaceAll(exportRegex, "");
-
-        console.log(
-            (html as string)
-                .replace("{{GAME_CODE}}", code)
-                .replaceAll(exportRegex, "")
-        );
+            .replaceAll(exportRegex, "")
+            .replace("{{LOGO_SRC}}", logoSrc.toString());
 
         let sprigkitConsole = vscode.window.createOutputChannel("SprigKit");
         sprigkitConsole.show();

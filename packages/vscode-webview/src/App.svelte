@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { red } from "picocolors";
     import { webEngine, type WebEngineAPI } from "sprig/web";
     import { onMount } from "svelte";
     import "./app.css";
@@ -6,85 +7,58 @@
     let canvas: HTMLCanvasElement | null = null;
 
     const runGame = (api: WebEngineAPI) => {
-        const {
-            map,
-            bitmap,
-            color,
-            tune,
-            setMap,
-            addText,
-            clearText,
-            addSprite,
-            getGrid,
-            getTile,
-            tilesWith,
-            clearTile,
-            setSolids,
-            setPushables,
-            setBackground,
-            getFirst,
-            getAll,
-            width,
-            height,
-            setLegend,
-            onInput,
-            afterInput,
-            playTune,
-            getState,
-        } = api;
+        const vscode = acquireVsCodeApi();
+
         const code = document.getElementsByTagName("code")[0].innerText.trim();
 
-        console.log(code);
-
-        if (canvas) {
-            // src/other.ts
-            var otherFunc = () => {
-                console.log("Hello from other!");
-            };
-
-            // src/index.ts
-            var player = "p";
-            setLegend([
-                player,
-                bitmap`
-................
-................
-.......000......
-.......0.0......
-......0..0......
-......0...0.0...
-....0003.30.0...
-....0.0...000...
-....0.05550.....
-......0...0.....
-.....0....0.....
-.....0...0......
-......000.......
-......0.0.......
-.....00.00......
-................`,
-            ]);
-            setSolids([]);
-            var level = 0;
-            var levels = [
-                map`
-p.
-..`,
-            ];
-            if (levels[level]) setMap(levels[level]);
-            setPushables({
-                [player]: [],
+        const _addConsoleOutput = (type: "log" | "error", ...args: any[]) => {
+            const text = args.join(" ");
+            vscode.postMessage({
+                command: "log",
+                text: type == "error" ? red(text) : text,
             });
-            onInput("s", () => {
-                const thing = "yurr";
-                console.log(thing);
-                const p = getFirst(player);
-                if (p) p.y += 1;
-            });
-            afterInput(() => {});
-            console.log("Hello from index!");
-            otherFunc();
-        }
+        };
+
+        const log = console.log;
+        const error = console.error;
+
+        console.log = (...args) => _addConsoleOutput("log", ...args);
+        console.error = (...args) => _addConsoleOutput("error", ...args);
+
+        const run = new Function(`
+            const {
+                map,
+                bitmap,
+                color,
+                tune,
+                setMap,
+                addText,
+                clearText,
+                addSprite,
+                getGrid,
+                getTile,
+                tilesWith,
+                clearTile,
+                setSolids,
+                setPushables,
+                setBackground,
+                getFirst,
+                getAll,
+                width,
+                height,
+                setLegend,
+                onInput,
+                afterInput,
+                playTune,
+                getState,
+            } = arguments[0];
+        
+            ${code}
+        `);
+        run(api);
+
+        console.log = log;
+        console.error = error;
     };
 
     onMount(() => {
@@ -97,6 +71,8 @@ p.
     });
 </script>
 
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<!-- svelte-ignore a11y-click-events-have-key-events -->
 <div
     class="flex items-center justify-center w-screen h-screen duration-500"
     on:click={(e) => {

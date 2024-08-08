@@ -3,6 +3,8 @@ import path from "path";
 import * as vscode from "vscode";
 import html from "vscode-webview/webview.html";
 
+const exportRegex = /export[ ]?{[\S\s]*};?/g;
+
 export function activate(context: vscode.ExtensionContext) {
     const disposable = vscode.commands.registerCommand("sprigkit.start", () => {
         // Create and show a new webview
@@ -22,11 +24,30 @@ export function activate(context: vscode.ExtensionContext) {
         );
         const code = fs.readFileSync(filePath, "utf8");
 
-        console.log(code);
+        panel.webview.html = (html as string)
+            .replace("{{GAME_CODE}}", code)
+            .replaceAll(exportRegex, "");
 
-        panel.webview.html = (html as string).replace("{{GAME_CODE}}", code);
+        console.log(
+            (html as string)
+                .replace("{{GAME_CODE}}", code)
+                .replaceAll(exportRegex, "")
+        );
 
-        console.log(panel.webview.html);
+        let sprigkitConsole = vscode.window.createOutputChannel("SprigKit");
+        sprigkitConsole.show();
+
+        panel.webview.onDidReceiveMessage(
+            (message) => {
+                switch (message.command) {
+                    case "log":
+                        sprigkitConsole.appendLine(message.text);
+                        return;
+                }
+            },
+            undefined,
+            context.subscriptions
+        );
     });
 
     context.subscriptions.push(disposable);

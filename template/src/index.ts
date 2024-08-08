@@ -51,3 +51,5 @@ setPushables({
 onInput("s", moveDown);
 
 afterInput(() => {});
+
+console.error("Welcome to the game!");

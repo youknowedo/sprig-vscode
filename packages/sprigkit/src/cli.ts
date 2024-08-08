@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { Command, Option } from "commander";
 import pico from "picocolors";
 import cliPkg from "../package.json";

@@ -16,7 +16,7 @@ import {
 } from "../../utils";
 
 export const postinstall = async (directory: string | undefined) => {
-    const root = path.resolve("./sprig");
+    const root = path.resolve("./.sprig");
     const { empty, exists } = checkFolder(root);
 
     if (!exists) mkdirSync(root, { recursive: true });

@@ -68,8 +68,6 @@ export async function downloadAndExtractRepo(
         `turbo-ct-example`
     );
 
-    console.log("Extracting...");
-    console.log(tempFile);
     await extract({
         file: tempFile,
         cwd: cwd ?? root,

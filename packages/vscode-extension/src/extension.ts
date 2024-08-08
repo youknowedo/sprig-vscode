@@ -22,7 +22,7 @@ export function activate(context: vscode.ExtensionContext) {
             vscode.workspace.workspaceFolders?.[0].uri.fsPath || "",
             "dist/index.js"
         );
-        const code = fs.readFileSync(filePath, "utf8");
+        let code = fs.readFileSync(filePath, "utf8");
 
         const logoOnDiskPath = vscode.Uri.joinPath(
             context.extensionUri,
@@ -38,7 +38,24 @@ export function activate(context: vscode.ExtensionContext) {
             .replace("{{LOGO_SRC}}", logoSrc.toString());
 
         let sprigkitConsole = vscode.window.createOutputChannel("SprigKit");
+
         sprigkitConsole.show();
+
+        const distWatcher = vscode.workspace.createFileSystemWatcher(filePath);
+        distWatcher.onDidChange((e) => {
+            code = fs.readFileSync(filePath, "utf8");
+            panel.webview.postMessage({
+                command: "update",
+                code: code.replace(exportRegex, ""),
+            });
+        });
+        distWatcher.onDidCreate((e) => {
+            code = fs.readFileSync(filePath, "utf8");
+            panel.webview.postMessage({
+                command: "update",
+                code: code.replace(exportRegex, ""),
+            });
+        });
 
         panel.webview.onDidReceiveMessage(
             (message) => {

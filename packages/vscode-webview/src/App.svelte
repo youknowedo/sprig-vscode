@@ -9,6 +9,8 @@
     let game: ReturnType<typeof webEngine> | null = null;
     let isRunning = true;
 
+    let newCode: string | undefined = undefined;
+
     const timeouts: Timer[] = [];
     const intervals: Timer[] = [];
 
@@ -39,6 +41,10 @@
         };
 
         const code = document.getElementsByTagName("code")[0].innerText.trim();
+        vscode.postMessage({
+            command: "log",
+            text: code,
+        });
 
         const _addConsoleOutput = (type: "log" | "error", ...args: any[]) => {
             const text = args.join(" ");
@@ -94,6 +100,17 @@
     };
 
     onMount(() => {
+        window.addEventListener("message", (event) => {
+            const message = event.data; // The JSON data our extension sent
+
+            switch (message.command) {
+                case "update":
+                    newCode = message.code;
+
+                    break;
+            }
+        });
+
         while (!canvas);
 
         runGame();
@@ -116,14 +133,21 @@
             alt=""
         />
     </div>
-    <canvas
-        bind:this={canvas}
-        width="160"
-        height="128"
-        style="image-rendering: pixelated;"
-        class="max-h-[60%] object-contain max-w-[100vh] w-[90%] aspect-[160/128] bg-black !border-none !outline-none"
-        tabindex="0"
-    />
+    <div
+        id="canvas"
+        class="{newCode
+            ? 'show'
+            : ''} max-h-[60%] relative object-contain max-w-[100vh] w-[90%] aspect-[160/128] bg-black"
+    >
+        <canvas
+            bind:this={canvas}
+            width="160"
+            height="128"
+            style="image-rendering: pixelated;"
+            class="w-full h-full !border-none !outline-none"
+            tabindex="0"
+        />
+    </div>
     <div class="flex items-center flex-1">
         <button
             class="box-border px-4 py-2 text-xl font-bold text-black border-4 border-opacity-50 bg-pcb-copper active:border-opacity-50 border-b-black border-r-black border-t-white active:border-l-black active:border-b-white active:border-r-white active:border-t-black border-l-white"
@@ -133,6 +157,12 @@
                         game.cleanup();
                         timeouts.forEach(clearTimeout);
                         intervals.forEach(clearInterval);
+
+                        if (newCode) {
+                            document.getElementsByTagName("code")[0].innerHTML =
+                                newCode;
+                            newCode = undefined;
+                        }
                     } else if (canvas) {
                         runGame();
                     }
@@ -148,5 +178,10 @@
 <style>
     #wrapper:has(*:focus) {
         @apply bg-pcb-green;
+    }
+
+    #canvas.show::before {
+        content: "New game code available!";
+        @apply absolute left-0 right-0 -top-6 text-center text-white bg-pcb-copper h-6 flex items-center justify-center;
     }
 </style>

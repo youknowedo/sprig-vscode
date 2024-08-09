@@ -11,8 +11,8 @@
 
     let newCode: string | undefined = undefined;
 
-    const timeouts: Timer[] = [];
-    const intervals: Timer[] = [];
+    const timeouts: ReturnType<typeof setTimeout>[] = [];
+    const intervals: ReturnType<typeof setInterval>[] = [];
 
     const runGame = () => {
         if (!canvas) return;

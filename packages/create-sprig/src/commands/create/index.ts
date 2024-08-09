@@ -58,7 +58,7 @@ export const create = async (directory: string | undefined) => {
         "youknowedo",
         "sprigkit",
         "main",
-        "template"
+        "packages/template"
     ).catch((error) => {
         console.error(error);
         process.exit(1);

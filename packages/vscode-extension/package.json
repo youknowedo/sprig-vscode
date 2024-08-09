@@ -14,8 +14,13 @@
     "contributes": {
         "commands": [
             {
-                "command": "sprigkit.start",
-                "title": "Open Game Panel",
+                "command": "sprigkit.openFromWorkspace",
+                "title": "Open game from workspace",
+                "category": "SprigKit"
+            },
+            {
+                "command": "sprigkit.openFromFile",
+                "title": "Open game from file",
                 "category": "SprigKit"
             }
         ]

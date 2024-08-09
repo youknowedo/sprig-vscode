@@ -1,71 +1,25 @@
-# sprigkit README
+# SprigKit VSCode Extension
 
-This is the README for your extension "sprigkit". After writing up a brief description, we recommend including the following sections.
+Heavily inspired by the [vs-sprig](https://github.com/hackclub/VS-Sprig), this extension gives you the ability develop and play your Sprig games on the fly and offline. This whilst still trying to use as much of VSCodes built-in features as possible.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+-   Play Sprig games inside the editor.
+-   Automatic loading of new code (restart required for them to be applied).
+-   `console.log` output via a custom Output channel.
+-   Multiple games running in parallell.
+-   Custom `setTimeout` & `setInterval`. Automatic clearing on game stop.
 
-For example if there is an image subfolder under your extension project workspace:
+### Planned features
 
-\!\[feature X\]\(images/feature-x.png\)
+-   Running via the debug menu (when i figure out how the DA API works)
+-   Fully customizable via Extension Settings
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+## Commands
 
-## Requirements
+-   `SprigKit: Open game from workspace`: Opens the game panel and loads the game code from `dist/index.js`.
+-   `SprigKit: Open game from file`: Opens the game panel and loads the game code from the currently opened file.
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+## License
 
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+Licensed under the [MIT License](../../LICENSE).

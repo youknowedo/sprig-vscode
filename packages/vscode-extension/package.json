@@ -1,8 +1,15 @@
 {
     "name": "sprigkit-extension",
-    "displayName": "sprigkit",
+    "displayName": "SprigKit",
+    "author": {
+        "name": "Sigfredo",
+        "url": "https://sigfredo.fun"
+    },
+    "publisher": "HackClub",
     "description": "",
-    "version": "0.0.1",
+    "icon": "images/sprig.png",
+    "private": true,
+    "version": "0.1.0",
     "engines": {
         "vscode": "^1.92.0"
     },

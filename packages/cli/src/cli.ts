@@ -3,7 +3,7 @@
 import { Command, Option } from "commander";
 import pico from "picocolors";
 import cliPkg from "../package.json";
-import { postinstall } from "./commands";
+import { postbuild, postinstall } from "./commands";
 import { notifyUpdate } from "./utils";
 
 const sprigkitCli = new Command();
@@ -17,6 +17,11 @@ sprigkitCli
     .command("postinstall")
     .description("Adds/updates the .sprig folder to the project.")
     .action(postinstall);
+
+sprigkitCli
+    .command("postbuild")
+    .description("Adds the Sprig comments to the build files.")
+    .action(postbuild);
 
 sprigkitCli
     .parseAsync()

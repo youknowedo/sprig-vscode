@@ -6,8 +6,8 @@
     "types": "dist/cli.d.ts",
     "type": "module",
     "scripts": {
-        "preview": "bun build ./src/cli.ts --outfile=./dist/cli.js --target=node && bun run start",
         "build": "tsup src/cli.ts --format esm --dts",
+        "watch": "tsup src/cli.ts --format esm --dts --watch",
         "start": "node dist/cli.js"
     },
     "peerDependencies": {

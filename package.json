@@ -2,7 +2,6 @@
     "name": "sprigkit-project",
     "private": true,
     "scripts": {
-        "postinstall": "sprigkit postinstall",
         "build": "turbo build",
         "dev": "turbo dev",
         "watch": "turbo run watch",

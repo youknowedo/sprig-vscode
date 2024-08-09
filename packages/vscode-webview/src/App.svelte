@@ -41,10 +41,6 @@
         };
 
         const code = document.getElementsByTagName("code")[0].innerText.trim();
-        vscode.postMessage({
-            command: "log",
-            text: code,
-        });
 
         const _addConsoleOutput = (type: "log" | "error", ...args: any[]) => {
             const text = args.join(" ");
@@ -126,18 +122,18 @@
         canvas?.focus();
     }}
 >
-    <div class="flex items-center justify-center flex-1">
+    <div class="flex items-center justify-center">
         <img
-            class="max-h-32 md:max-h-44 my-8 max-w-[40%] object-contain object-center"
+            class="h-[7.5vh] my-[4vh] object-contain object-center"
             src={"{{LOGO_SRC}}"}
             alt=""
         />
     </div>
     <div
         id="canvas"
-        class="{newCode
+        class="{newCode && isRunning
             ? 'show'
-            : ''} max-h-[60%] relative object-contain max-w-[100vh] w-[90%] aspect-[160/128] bg-black"
+            : ''} max-h-[60%] relative object-contain max-w-[80vh] w-[90%] aspect-[160/128] bg-black"
     >
         <canvas
             bind:this={canvas}
@@ -161,12 +157,12 @@
                         if (newCode) {
                             document.getElementsByTagName("code")[0].innerHTML =
                                 newCode;
-                            newCode = undefined;
                         }
                     } else if (canvas) {
                         runGame();
                     }
                     isRunning = !isRunning;
+                    newCode = undefined;
                 }
             }}
         >

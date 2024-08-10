@@ -22,4 +22,4 @@ Heavily inspired by the [vs-sprig](https://github.com/hackclub/VS-Sprig), this e
 
 ## License
 
-Licensed under the [MIT License](../../LICENSE).
+Licensed under the [MIT License](./LICENSE).

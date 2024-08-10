@@ -7,6 +7,11 @@
     },
     "publisher": "HackClub",
     "description": "",
+    "repository": {
+        "url": "git+https://github.com/youknowedo/sprigkit.git",
+        "directory": "packages/vscode-extension",
+        "type": "git"
+    },
     "icon": "images/sprig.png",
     "private": true,
     "version": "0.1.0",
@@ -44,6 +49,7 @@
         "test": "vscode-test"
     },
     "dependencies": {
+        "html-loader": "^5.1.0",
         "vscode-webview": "*"
     },
     "devDependencies": {

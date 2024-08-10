@@ -1,6 +1,6 @@
 # SprigKit VSCode Extension
 
-Heavily inspired by the [vs-sprig](https://github.com/hackclub/VS-Sprig), this extension gives you the ability develop and play your Sprig games on the fly and offline. This whilst still trying to use as much of VSCodes built-in features as possible.
+Heavily inspired by the [vs-sprig](https://github.com/hackclub/VS-Sprig), this extension gives you the ability develop and play your Sprig games without leaving your editor. This whilst still trying to use as much of VSCodes built-in features as possible.
 
 ## Features
 

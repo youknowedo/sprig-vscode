@@ -1,21 +1,19 @@
-import { confirm } from "@inquirer/prompts";
-import {
-    mkdirSync,
-    readdirSync,
-    readFileSync,
-    rmSync,
-    writeFileSync,
-} from "node:fs";
+import { resolve } from "dns";
+import { mkdirSync, readdirSync, rmSync } from "node:fs";
 import path from "node:path";
-import pico from "picocolors";
-import cliPkg from "../../../package.json";
-import {
-    checkFolder,
-    downloadAndExtractRepo,
-    getPackageManager,
-} from "../../utils";
+import { checkFolder, downloadAndExtractRepo } from "../../utils";
 
 export const postinstall = async (directory: string | undefined) => {
+    // Check if has internet connection
+    resolve("github.com", (err) => {
+        if (err) {
+            console.error(
+                "No internet connection. Please check your connection and try again."
+            );
+            process.exit(1);
+        }
+    });
+
     const root = path.resolve("./.sprig");
     const { empty, exists } = checkFolder(root);
 

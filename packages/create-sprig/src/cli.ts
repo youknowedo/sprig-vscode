@@ -3,7 +3,7 @@
 import { Command, Option } from "commander";
 import pico from "picocolors";
 import cliPkg from "../package.json";
-import { create } from "./commands";
+import { create, postbuild, postinstall } from "./commands";
 import { notifyUpdate } from "./utils";
 
 const createSprigCli = new Command();
@@ -16,6 +16,16 @@ createSprigCli
     .version(cliPkg.version, "-v, --version", "Output the current version")
     .helpOption("-h, --help", "Display help for command")
     .action(create);
+
+createSprigCli
+    .command("postinstall")
+    .description("Adds/updates the .sprig folder to the project.")
+    .action(postinstall);
+
+createSprigCli
+    .command("postbuild")
+    .description("Adds the Sprig comments to the build files.")
+    .action(postbuild);
 
 createSprigCli
     .parseAsync()

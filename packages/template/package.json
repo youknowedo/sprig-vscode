@@ -7,8 +7,8 @@
     "type": "module",
     "scripts": {
         "build": "tsup src/index.ts --format esm",
-        "postbuild": "sprigkit postbuild",
-        "postinstall": "sprigkit postinstall",
+        "postbuild": "create-sprig postbuild",
+        "postinstall": "create-sprig postinstall",
         "watch": "tsup src/index.ts --watch --format esm"
     },
     "devDependencies": {

@@ -176,3 +176,4 @@ dist
 
 # In case I forget to remove it
 sprig-project
+!.sprig

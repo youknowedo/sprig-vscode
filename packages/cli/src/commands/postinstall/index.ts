@@ -38,7 +38,7 @@ export const postinstall = async (directory: string | undefined) => {
         "youknowedo",
         "sprigkit",
         "main",
-        "packages/sprigkit/.sprig"
+        "packages/cli/.sprig"
     ).catch((error) => {
         console.error(error);
         process.exit(1);

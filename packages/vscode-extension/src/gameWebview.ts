@@ -1,33 +1,39 @@
 import fs from "fs";
 import path from "path";
-import * as vscode from "vscode";
+import {
+    ExtensionContext,
+    TextEditor,
+    Uri,
+    ViewColumn,
+    WebviewPanel,
+    window,
+    workspace,
+} from "vscode";
 import html from "vscode-webview/webview.html";
 import { output } from "./extension";
 
 const exportRegex = /export[ ]?{[\S\s]*};?/g;
-let workspacePanel: vscode.WebviewPanel | undefined = undefined;
+let workspacePanel: WebviewPanel | undefined = undefined;
 
 export const openGameWebview = (
-    context: vscode.ExtensionContext,
-    editor?: vscode.TextEditor
+    context: ExtensionContext,
+    editor?: TextEditor
 ) => {
     const panel =
         editor || !workspacePanel
-            ? vscode.window.createWebviewPanel(
+            ? window.createWebviewPanel(
                   "sprigKitGamePanel",
                   "SprigKit: " +
                       ((editor && path.basename(editor?.document.fileName)) ??
                           "Workspace"),
-                  vscode.ViewColumn.Two,
+                  ViewColumn.Two,
                   {
                       enableScripts: true,
                   }
               )
             : workspacePanel;
 
-    panel.iconPath = vscode.Uri.file(
-        context.asAbsolutePath("images/sprig.png")
-    );
+    panel.iconPath = Uri.file(context.asAbsolutePath("images/sprig.png"));
     if (!workspacePanel && !editor) {
         workspacePanel = panel;
     }
@@ -36,7 +42,7 @@ export const openGameWebview = (
 
     let code: string | undefined = undefined;
 
-    const logoOnDiskPath = vscode.Uri.joinPath(
+    const logoOnDiskPath = Uri.joinPath(
         context.extensionUri,
         "images",
         "sprigkit.png"
@@ -65,7 +71,7 @@ export const openGameWebview = (
 
         code = editor.document.getText();
 
-        const fileSave = vscode.workspace.onDidSaveTextDocument((document) => {
+        const fileSave = workspace.onDidSaveTextDocument((document) => {
             if (document === editor.document) {
                 code = document.getText();
                 panel.webview.postMessage({
@@ -80,12 +86,12 @@ export const openGameWebview = (
 
         context.subscriptions.push(fileSave);
     } else {
-        const workspaceFolders = vscode.workspace.workspaceFolders;
+        const workspaceFolders = workspace.workspaceFolders;
         if (!workspaceFolders?.[0]) {
             output.appendLine(
                 "[Kit] No workspace folder found. Please open a workspace folder"
             );
-            vscode.window.showErrorMessage(
+            window.showErrorMessage(
                 "No workspace folder found. Please open a workspace folder"
             );
             return;
@@ -100,8 +106,7 @@ export const openGameWebview = (
             );
             code = fs.readFileSync(filePath, "utf8");
 
-            const distWatcher =
-                vscode.workspace.createFileSystemWatcher(filePath);
+            const distWatcher = workspace.createFileSystemWatcher(filePath);
             distWatcher.onDidChange((e) => {
                 code = fs.readFileSync(filePath, "utf8");
                 panel.webview.postMessage({

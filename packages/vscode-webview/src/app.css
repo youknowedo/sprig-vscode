@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-code {
+code,
+id {
     display: none;
 }

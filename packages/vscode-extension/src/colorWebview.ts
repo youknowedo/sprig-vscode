@@ -9,6 +9,7 @@ import {
     workspace,
 } from "vscode";
 import html from "vscode-webview/webview.html";
+import { output } from "./extension";
 
 let workspacePanel: WebviewPanel | undefined = undefined;
 
@@ -27,6 +28,9 @@ export const openColorWebview = (
                   }
               )
             : workspacePanel;
+
+    output.appendLine("Opening color webview");
+    output.appendLine((html as string).replace("{{PAGE_ID}}", "color"));
 
     panel.iconPath = Uri.file(context.asAbsolutePath("images/sprig.png"));
     if (!workspacePanel && !editor) {

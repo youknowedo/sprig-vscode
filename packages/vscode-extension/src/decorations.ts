@@ -9,28 +9,21 @@ import { activeEditor } from "./extension";
 
 let timeout: NodeJS.Timeout | undefined = undefined;
 
-const smallNumberDecorationType = window.createTextEditorDecorationType({
-    borderWidth: "1px",
-    borderStyle: "solid",
-    overviewRulerColor: "blue",
-    overviewRulerLane: OverviewRulerLane.Right,
-    light: {
-        borderColor: "darkblue",
-    },
-    dark: {
-        borderColor: "lightblue",
-    },
-    after: {},
+const colorHoverDecorations = window.createTextEditorDecorationType({});
+const badgeDecorations = window.createTextEditorDecorationType({
+    backgroundColor: "#FF9D07",
+    color: "black",
+    borderRadius: "2px",
 });
 
 const updateDecorations = () => {
     if (!activeEditor) {
         return;
     }
-    const template = /(\S*)`((.|\s)*)`/g;
-    const templateName = /(\S*)`/g;
+    const template = /([a-zA-Z]+)`(.|\s)*?`/g;
     const text = activeEditor.document.getText();
-    const colors: DecorationOptions[] = [];
+    const colorHovers: DecorationOptions[] = [];
+    const badges: DecorationOptions[] = [];
     let match;
     while ((match = template.exec(text))) {
         const startPos = activeEditor.document.positionAt(match.index);
@@ -38,19 +31,30 @@ const updateDecorations = () => {
             match.index + match[0].length
         );
 
-        const md = new MarkdownString(
-            "[linku](command:sprigkit.openColorWebview)"
-        );
-        md.isTrusted = true;
+        console.log(match);
 
-        const decoration = {
-            range: new Range(startPos, endPos),
-            hoverMessage: md,
+        const hoverMessage = (command: string) => {
+            const md = new MarkdownString(`[Edit in GUI](command:${command})`);
+            md.isTrusted = true;
+
+            return md;
         };
 
-        colors.push(decoration);
+        switch (match[1]) {
+            case "color":
+                colorHovers.push({
+                    range: new Range(startPos, endPos),
+                    hoverMessage: hoverMessage("sprigkit.openColorWebview"),
+                });
+                break;
+        }
+
+        badges.push({
+            range: new Range(startPos, startPos.translate(0, match[1].length)),
+        });
     }
-    activeEditor.setDecorations(smallNumberDecorationType, colors);
+    activeEditor.setDecorations(colorHoverDecorations, colorHovers);
+    activeEditor.setDecorations(badgeDecorations, badges);
 };
 
 export const triggerUpdateDecorations = (throttle = false) => {

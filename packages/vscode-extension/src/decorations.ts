@@ -44,7 +44,7 @@ const updateDecorations = () => {
         );
 
         const md = new MarkdownString(
-            "[linku](command:sprigkit.openFromWorkspace)"
+            "[linku](command:sprigkit.openColorWebview)"
         );
         md.isTrusted = true;
 

@@ -5,6 +5,7 @@ import {
     window,
     workspace,
 } from "vscode";
+import { openColorWebview } from "./colorWebview";
 import { triggerUpdateDecorations } from "./decorations";
 import { openGameWebview } from "./gameWebview";
 
@@ -21,6 +22,11 @@ export function activate(context: ExtensionContext) {
     const openGameFromFile = commands.registerTextEditorCommand(
         "sprigkit.openFromFile",
         (editor) => openGameWebview(context, editor)
+    );
+
+    const openColorPanel = commands.registerCommand(
+        "sprigkit.openColorWebview",
+        (editor) => openColorWebview(context, editor)
     );
 
     if (activeEditor) {
@@ -48,7 +54,11 @@ export function activate(context: ExtensionContext) {
         context.subscriptions
     );
 
-    context.subscriptions.push(openGameFromWorkspace, openGameFromFile);
+    context.subscriptions.push(
+        openGameFromWorkspace,
+        openGameFromFile,
+        openColorPanel
+    );
 }
 
 export function deactivate() {}

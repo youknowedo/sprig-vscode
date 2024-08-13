@@ -2,6 +2,7 @@ import {
     commands,
     ExtensionContext,
     OutputChannel,
+    Position,
     window,
     workspace,
 } from "vscode";
@@ -24,9 +25,19 @@ export function activate(context: ExtensionContext) {
         (editor) => openGameWebview(context, editor)
     );
 
-    const openColorPanel = commands.registerCommand(
+    const openColorPanel = commands.registerTextEditorCommand(
         "sprigkit.openColorWebview",
-        (editor) => openColorWebview(context, editor)
+        (editor, edit, args) => {
+            console.log({ args });
+            return openColorWebview(
+                context,
+                editor,
+                edit,
+                new Position(args.startLine, args.startChar),
+                new Position(args.endLine, args.endChar),
+                args.currentColor
+            );
+        }
     );
 
     if (activeEditor) {

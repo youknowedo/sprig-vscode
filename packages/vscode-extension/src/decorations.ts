@@ -31,8 +31,6 @@ const updateDecorations = () => {
             match.index + match[0].length
         );
 
-        console.log(match);
-
         const hoverMessage = (command: string) => {
             const md = new MarkdownString(`[Edit in GUI](command:${command})`);
             md.isTrusted = true;
@@ -44,7 +42,20 @@ const updateDecorations = () => {
             case "color":
                 colorHovers.push({
                     range: new Range(startPos, endPos),
-                    hoverMessage: hoverMessage("sprigkit.openColorWebview"),
+                    hoverMessage: hoverMessage(
+                        "sprigkit.openColorWebview?" +
+                            encodeURIComponent(
+                                JSON.stringify([
+                                    {
+                                        startLine: startPos.line,
+                                        startChar: startPos.character,
+                                        endLine: endPos.line,
+                                        endChar: endPos.character,
+                                        currentColor: match[2],
+                                    },
+                                ])
+                            )
+                    ),
                 });
                 break;
         }

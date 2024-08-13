@@ -23,21 +23,16 @@ const smallNumberDecorationType = window.createTextEditorDecorationType({
     after: {},
 });
 
-const largeNumberDecorationType = window.createTextEditorDecorationType({
-    cursor: "crosshair",
-    backgroundColor: { id: "myextension.largeNumberBackground" },
-});
-
 const updateDecorations = () => {
     if (!activeEditor) {
         return;
     }
-    const regEx = /\d+/g;
+    const template = /(\S*)`((.|\s)*)`/g;
+    const templateName = /(\S*)`/g;
     const text = activeEditor.document.getText();
-    const smallNumbers: DecorationOptions[] = [];
-    const largeNumbers: DecorationOptions[] = [];
+    const colors: DecorationOptions[] = [];
     let match;
-    while ((match = regEx.exec(text))) {
+    while ((match = template.exec(text))) {
         const startPos = activeEditor.document.positionAt(match.index);
         const endPos = activeEditor.document.positionAt(
             match.index + match[0].length
@@ -52,14 +47,10 @@ const updateDecorations = () => {
             range: new Range(startPos, endPos),
             hoverMessage: md,
         };
-        if (match[0].length < 3) {
-            smallNumbers.push(decoration);
-        } else {
-            largeNumbers.push(decoration);
-        }
+
+        colors.push(decoration);
     }
-    activeEditor.setDecorations(smallNumberDecorationType, smallNumbers);
-    activeEditor.setDecorations(largeNumberDecorationType, largeNumbers);
+    activeEditor.setDecorations(smallNumberDecorationType, colors);
 };
 
 export const triggerUpdateDecorations = (throttle = false) => {

@@ -23,4 +23,4 @@ npm run watch # or equivalent
 
 ## License
 
-Licensed under the [MIT License](../../LICENSE).
+Licensed under the [MIT License](./LICENSE).

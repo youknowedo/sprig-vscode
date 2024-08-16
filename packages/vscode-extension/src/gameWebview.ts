@@ -33,10 +33,19 @@ export const openGameWebview = (
               )
             : workspacePanel;
 
-    panel.iconPath = Uri.file(context.asAbsolutePath("images/sprig.png"));
     if (!workspacePanel && !editor) {
         workspacePanel = panel;
+
+        workspacePanel.onDidDispose(
+            () => {
+                workspacePanel = undefined;
+            },
+            null,
+            context.subscriptions
+        );
     }
+
+    panel.iconPath = Uri.file(context.asAbsolutePath("images/sprig.png"));
     panel.reveal();
     output.show();
 

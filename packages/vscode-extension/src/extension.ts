@@ -32,7 +32,6 @@ export function activate(context: ExtensionContext) {
             return openColorWebview(
                 context,
                 editor,
-                edit,
                 new Position(args.startLine, args.startChar),
                 new Position(args.endLine, args.endChar),
                 args.currentColor

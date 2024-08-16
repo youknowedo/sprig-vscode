@@ -1,6 +1,8 @@
 <script lang="ts">
     import { onMount } from "svelte";
 
+    const vscode = acquireVsCodeApi();
+
     const COLORS = {
         "#000000": "0",
         "#495057": "L",
@@ -20,19 +22,24 @@
         transparent: ".",
     } as const;
 
-    const COLORHEX = Object.keys(COLORS);
-    let selectedColor: (typeof COLORHEX)[number] = "#000000";
-    let data: unknown;
+    const COLORS_ARRAY: (keyof typeof COLORS)[] = Object.keys(COLORS) as any;
+
+    let selectedColor: keyof typeof COLORS = "#000000";
+    let data: {
+        startPos: { line: number; character: number };
+        endPos: { line: number; character: number };
+        currentColor: string;
+    };
 
     onMount(() => {
         const dataEl = document.querySelector("data") as HTMLDataElement;
         data = JSON.parse(dataEl.innerText);
 
-        console.log(data);
+        selectedColor = Object.entries(COLORS).find(
+            ([, value]) => value === data.currentColor
+        )?.[0] as keyof typeof COLORS;
     });
 </script>
-
-{JSON.stringify(data)}
 
 <div
     class="relative flex flex-col items-center justify-center w-screen h-screen overflow-hidden transition-colors bg-center bg-cover font-pcb bg-pcb-green bg-pcb-overlay"
@@ -40,10 +47,17 @@
     <div>
         <h1 class="text-4xl font-bold text-white">Color</h1>
         <!-- View colors in a grid that you can choose between -->
-        <div class="grid grid-cols-4 gap-4 my-4">
-            {#each COLORHEX as color}
+        <div class="grid grid-cols-4 gap-4 mt-4">
+            {#each COLORS_ARRAY as color}
                 <button
-                    on:click={() => (selectedColor = color)}
+                    on:click={() => {
+                        selectedColor = color;
+                        vscode.postMessage({
+                            command: "newValue",
+                            value: COLORS[selectedColor],
+                        });
+                        console.log("sending", COLORS[selectedColor]);
+                    }}
                     class="flex items-center justify-center aspect-square h-[10vh] rounded-md shadow-md {color ===
                     selectedColor
                         ? 'outline-4 outline outline-white'
@@ -54,7 +68,5 @@
                 ></button>
             {/each}
         </div>
-
-        <button class="sprig-button"> Save </button>
     </div>
 </div>

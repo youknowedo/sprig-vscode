@@ -145,8 +145,8 @@
         />
     </div>
     <div class="flex items-center flex-1">
-        <button
-            class="box-border px-4 py-2 text-xl font-bold text-black border-4 border-opacity-50 bg-pcb-copper active:border-opacity-50 border-b-black border-r-black border-t-white active:border-l-black active:border-b-white active:border-r-white active:border-t-black border-l-white"
+        <utton
+            class="sprig-button"
             on:click={() => {
                 if (game) {
                     if (isRunning) {
@@ -167,7 +167,7 @@
             }}
         >
             {isRunning ? "Stop" : "Play"}
-        </button>
+        </utton>
     </div>
 </div>
 

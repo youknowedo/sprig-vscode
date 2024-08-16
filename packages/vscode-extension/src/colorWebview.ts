@@ -59,5 +59,10 @@ export const openColorWebview = (
     }
     panel.reveal();
 
-    panel.webview.html = (html as string).replace("{{PAGE_ID}}", "color");
+    panel.webview.html = (html as string)
+        .replace("{{PAGE_ID}}", "color")
+        .replace(
+            "{{DATA}}",
+            JSON.stringify({ startPos, endPos, currentColor })
+        );
 };

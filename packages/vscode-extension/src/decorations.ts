@@ -10,6 +10,8 @@ import { activeEditor } from "./extension";
 let timeout: NodeJS.Timeout | undefined = undefined;
 
 const colorHoverDecorations = window.createTextEditorDecorationType({});
+const bitmapHoverDecorations = window.createTextEditorDecorationType({});
+
 const badgeDecorations = window.createTextEditorDecorationType({
     backgroundColor: "#FF9D07",
     color: "black",
@@ -22,7 +24,10 @@ const updateDecorations = () => {
     }
     const template = /([a-zA-Z]+)`(.|\s)*?`/g;
     const text = activeEditor.document.getText();
+
     const colorHovers: DecorationOptions[] = [];
+    const bitmapHovers: DecorationOptions[] = [];
+
     const badges: DecorationOptions[] = [];
     let match;
     while ((match = template.exec(text))) {
@@ -58,12 +63,32 @@ const updateDecorations = () => {
                     ),
                 });
                 break;
+            case "bitmap":
+                bitmapHovers.push({
+                    range: new Range(startPos, endPos),
+                    hoverMessage: hoverMessage(
+                        "sprigkit.openBitmapWebview?" +
+                            encodeURIComponent(
+                                JSON.stringify([
+                                    {
+                                        startLine: startPos.line,
+                                        startChar: startPos.character,
+                                        endLine: endPos.line,
+                                        endChar: endPos.character,
+                                        currentBitmap: match[2],
+                                    },
+                                ])
+                            )
+                    ),
+                });
+                break;
         }
 
         badges.push({
             range: new Range(startPos, startPos.translate(0, match[1].length)),
         });
     }
+    activeEditor.setDecorations(bitmapHoverDecorations, bitmapHovers);
     activeEditor.setDecorations(colorHoverDecorations, colorHovers);
     activeEditor.setDecorations(badgeDecorations, badges);
 };

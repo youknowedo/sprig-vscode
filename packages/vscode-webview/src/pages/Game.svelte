@@ -145,7 +145,7 @@
         />
     </div>
     <div class="flex items-center flex-1">
-        <utton
+        <button
             class="sprig-button"
             on:click={() => {
                 if (game) {
@@ -167,7 +167,7 @@
             }}
         >
             {isRunning ? "Stop" : "Play"}
-        </utton>
+        </button>
     </div>
 </div>
 

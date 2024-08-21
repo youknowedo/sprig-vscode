@@ -13,16 +13,16 @@ import html from "vscode-webview/webview.html";
 
 let openPanels: WebviewPanel[] = [];
 
-export const openColorWebview = (
+export const openBitmapWebview = (
     context: ExtensionContext,
     editor: TextEditor,
     startPos: Position,
     endPos: Position,
-    currentColor: string
+    currentBitmap: string
 ) => {
     const panel = window.createWebviewPanel(
         "sprigKitGamePanel",
-        "SprigKit: Color",
+        "SprigKit: Bitmap",
         ViewColumn.Two,
         {
             enableScripts: true,
@@ -55,7 +55,7 @@ export const openColorWebview = (
                                 editor.document.validateRange(
                                     new Range(startPos, endPos)
                                 ),
-                                `color\`${message.value}\``
+                                `bitmap\`${message.value}\``
                             );
                         });
                     } catch (e) {
@@ -73,9 +73,9 @@ export const openColorWebview = (
     panel.reveal();
 
     panel.webview.html = (html as string)
-        .replace("{{PAGE_ID}}", "color")
+        .replace("{{PAGE_ID}}", "bitmap")
         .replace(
             "{{DATA}}",
-            JSON.stringify({ startPos, endPos, currentColor })
+            JSON.stringify({ startPos, endPos, currentBitmap })
         );
 };

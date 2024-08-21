@@ -6,6 +6,7 @@ import {
     window,
     workspace,
 } from "vscode";
+import { openBitmapWebview } from "./bitmapWebview";
 import { openColorWebview } from "./colorWebview";
 import { triggerUpdateDecorations } from "./decorations";
 import { openGameWebview } from "./gameWebview";
@@ -39,6 +40,20 @@ export function activate(context: ExtensionContext) {
         }
     );
 
+    const openBitmapPanel = commands.registerTextEditorCommand(
+        "sprigkit.openBitmapWebview",
+        (editor, edit, args) => {
+            console.log({ args });
+            return openBitmapWebview(
+                context,
+                editor,
+                new Position(args.startLine, args.startChar),
+                new Position(args.endLine, args.endChar),
+                args.currentBitmap
+            );
+        }
+    );
+
     if (activeEditor) {
         triggerUpdateDecorations();
     }
@@ -67,7 +82,8 @@ export function activate(context: ExtensionContext) {
     context.subscriptions.push(
         openGameFromWorkspace,
         openGameFromFile,
-        openColorPanel
+        openColorPanel,
+        openBitmapPanel
     );
 }
 

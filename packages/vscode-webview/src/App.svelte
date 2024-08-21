@@ -9,6 +9,8 @@
 
 {#if pageId === "color"}
     <Color />
+{:else if pageId === "color"}
+    <Color />
 {:else}
     <Game />
 {/if}

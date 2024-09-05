@@ -23,6 +23,8 @@ npm run watch # or equivalent
 -   Select _SprigKit: Open game from workspace_
 -   Your game should now be running in your editor. Start developing by editing `src/index.ts`
 
+![using in vscode](./images/vscode.png)
+
 ## Confessions
 
 Used GitHub Copilot as an assistant and used [vs-sprig](https://github.com/hackclub/VS-Sprig) for inspiration for the vscode extension.

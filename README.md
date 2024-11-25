@@ -1,6 +1,8 @@
+### Archived bc I don't use VSCode anymore. If you want to continue the project HMU
+
 Made for Hack Club Arcade with GitHub Copilot as an assistant
 
-# SprigKit
+# Sprig VSCode
 
 Making [Sprig](https://sprig.hackclub.com/) game development even easier. Create a TypeScript Sprig project using [create-sprig](./packages/create-sprig/), and develop it in your editor with the [vscode extension](./packages/vscode-extension/).
 
